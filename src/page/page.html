@@ -1,0 +1,127 @@
+<template>
+   <div class="row">
+      <div class="col-sm-12">
+         <div class=" pull-right">
+            <button click.trigger="toggleEditPage()">
+               <i class="fa fa-pencil-square-o"></i>
+            </button>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+     <section id="pageSection" class.bind="appliedClass">
+        <style>
+        section#pageSection.edit div.myPointPnl {
+           border: 1px solid black;
+           box-shadow: 5px 5px 2px #888888;
+           border-radius: 5px;
+        }
+
+        div.chromeTitle {
+           display:none;
+        }
+
+        div.myPointPnl.borderTitle  div.chromeTitle, div.myPointPnl.title  div.chromeTitle{
+           display:block;
+           padding-bottom: 10px;
+           font-weight: bolder;
+        }
+
+        div.myPointPnl.border, div.myPointPnl.borderTitle {
+           border: 1px solid #aaa;
+           border-radius: 5px;
+        }
+
+        section#pageSection div.myPointPnl {
+           padding: 8px;
+           float:left;
+           width:calc(100% - 10px);
+           margin : 5px;
+        }
+
+        .drop-target {
+          margin-top : 10px;
+          padding-top: 15px;
+          padding-bottom: 35px;
+          border-top: solid 1px #eee;
+          border-bottom: solid 1px #eee;
+        }
+
+        .drop-target::after {
+          text-align: center;
+          content: " - Drop Zone - ";
+          color:#eee;
+        }
+
+        </style>
+        <div if.bind="page.sizes.left" class.bind="page.sizes.left">
+           <!-- left widgets -->
+           <div class="row ${isEditable ? 'drop-target' : ''}" zone.bind="page.left">
+             <div sourceitem.bind="item" sourcezone.bind="page.left" class="${isEditable ? 'drag-source':''}" repeat.for="item of page.left">
+               <div class="myPointPnl ${item.chrome}">
+                 <div class="pull-right" if.bind="isEditable">
+                    <a click.trigger="editWidget(item)">
+                       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a click.trigger="deleteWidget('left', item)">
+                       <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                 </div>
+                 <div class="col-sm-12 chromeTitle">${item.name}</div>
+                 <compose view-model.bind="'./widgets/'+item.t" model.bind="item"></compose>
+              </div>
+            </div>
+           </div>
+        </div>
+
+        <div if.bind="page.sizes.middle" class.bind="page.sizes.middle">
+           <!-- Middle widgets -->
+           <div class="row ${isEditable ? 'drop-target' : ''}" zone.bind="page.middle">
+             <div sourceitem.bind="item" sourcezone.bind="page.middle" class="${isEditable ? 'drag-source' : ''}" repeat.for="item of page.middle">
+              <div class="myPointPnl ${item.chrome}">
+                 <div class="pull-right" if.bind="isEditable">
+                    <a click.trigger="editWidget(item)">
+                       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a click.trigger="deleteWidget('middle', item)">
+                       <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                 </div>
+                 <div class="col-sm-12 chromeTitle">${item.name}</div>
+                 <compose view-model.bind="'./widgets/'+item.t" model.bind="item"></compose>
+              </div>
+            </div>
+           </div>
+        </div>
+
+        <div if.bind="page.sizes.right" class.bind="page.sizes.right">
+           <!-- Right widgets -->
+           <div class="row ${isEditable ? 'drop-target' : ''}" zone.bind="page.right">
+             <div sourceitem.bind="item" sourcezone.bind="page.right" class="${isEditable ? 'drag-source' : ''}" repeat.for="item of page.right">
+              <div class="myPointPnl ${item.chrome}">
+                 <div class="pull-right" if.bind="isEditable">
+                    <a click.trigger="editWidget(item)">
+                       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a click.trigger="deleteWidget('right', item)">
+                       <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                 </div>
+                 <div class="col-sm-12 chromeTitle">${item.name}</div>
+                 <compose view-model.bind="'./widgets/'+item.t" model.bind="item"></compose>
+              </div>
+            </div>
+           </div>
+        </div>
+
+
+        <compose view="./page-edit.html" if.bind="isEditable"/>
+     </section>
+   </div>
+   <section class="row">
+      <div class=col-sm-12>
+         <hr/>
+         Copyright...
+      </div>
+   </section>
+</template>
